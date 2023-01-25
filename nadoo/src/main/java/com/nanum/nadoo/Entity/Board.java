@@ -27,7 +27,7 @@ public class Board {
     @Column(name = "board_content", nullable = false, length = 1000)
     private String boardContent; //게시판 내용
 
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
+    @Column(name="board_time", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
     private Date boardTime; //작성일자
 
     @Column(name = "board_addr", nullable = false, length = 300)
@@ -36,7 +36,7 @@ public class Board {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "writer")
     private User userVO; //작성자
-    @OneToMany(mappedBy="boardVO", fetch=FetchType.LAZY)
-    private List<Comment> commentVO;
+//    @OneToMany(mappedBy="boardVO", fetch=FetchType.LAZY)
+//    private List<Comment> commentVO;
 
 }

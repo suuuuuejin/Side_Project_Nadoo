@@ -2,7 +2,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import '../../styles/Navigator/Navigator.css';
 import styled from "styled-components";
-import { BiHomeAlt, BiSearch, BiShoppingBag, BiUser } from 'react-icons/bi';
+import { BiHomeAlt, BiSearch, BiUser, BiChat } from 'react-icons/bi';
+import { RiFileList3Line } from 'react-icons/ri';
+import { IoChatbubblesOutline } from 'react-icons/io5'
 
 const NavCenter = styled.div`
   text-align: center;
@@ -14,7 +16,10 @@ function NavigatorMain({ searchMode, setSearchMode }) {
   const navigate = useNavigate();
   const location = useLocation();
   const url = location.pathname;
+  const detailUrl = url.substring(0, 12);
+  const chatlUrl = url.substring(0, 10);
 
+  console.log(detailUrl)
 
   // 센터 로그인 후 센터 디테일 들어갈 때는 네비게이션바 안 띄우기 위해서 if문 추가
   return (
@@ -31,6 +36,28 @@ function NavigatorMain({ searchMode, setSearchMode }) {
               'Navigator_image'
           }
         />
+        <RiFileList3Line
+          className={
+            url === '/grouplist' || detailUrl === '/groupdetail' || url === '/groupcreate' ?
+              'Navigator_imageSelect'
+              :
+              'Navigator_image'
+          }
+          onClick={() => {
+            navigate("/grouplist");
+          }}
+        />
+        <BiChat
+          className={
+            url === '/groupchatlist' || chatlUrl === '/groupchat' ?
+              'Navigator_imageSelect'
+              :
+              'Navigator_image'
+          }
+          onClick={() => {
+            navigate("/groupchatlist");
+          }}
+        />
         <BiSearch
           className={
             url === '/search' ?
@@ -42,7 +69,7 @@ function NavigatorMain({ searchMode, setSearchMode }) {
             navigate("/search");
           }}
         />
-        <BiShoppingBag
+        <BiUser
           className={
             url === '/mypage' ?
               'Navigator_imageSelect'
@@ -51,17 +78,6 @@ function NavigatorMain({ searchMode, setSearchMode }) {
           }
           onClick={() => {
             navigate("/mypage");
-          }}
-        />
-        <BiUser
-          className={
-            url === '/wish' ?
-              'Navigator_imageSelect'
-              :
-              'Navigator_image'
-          }
-          onClick={() => {
-            navigate("/wish");
           }}
         />
       </div>

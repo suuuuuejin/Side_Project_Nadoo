@@ -1,8 +1,10 @@
 package com.nanum.nadoo;
 
+import com.nanum.nadoo.Entity.Tmember;
 import com.nanum.nadoo.Entity.Trade;
 import com.nanum.nadoo.Entity.User;
 import com.nanum.nadoo.Repository.CategoryRepository;
+import com.nanum.nadoo.Repository.TmemberRepository;
 import com.nanum.nadoo.Repository.TradeRepository;
 import com.nanum.nadoo.Repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -24,6 +26,9 @@ class TradeTests {
 
 	@Autowired
 	UserRepository userRepository;
+    
+    @Autowired
+    TmemberRepository tmemberRepository;
 
 	@Test	// Trade 가데이터 생성1
 	void insertSampleTrade1() {
@@ -37,9 +42,9 @@ class TradeTests {
 		cal.add(Calendar.HOUR_OF_DAY, 3);	// 4시간 후
 
 		sample1.setTradeAddress("광주광역시 서구 화정동");
-		sample1.setTradeType("동네거래");
-		sample1.setTradeStart(startDate);
-		sample1.setTradeEnd(new Date(cal.getTimeInMillis()));
+		sample1.setTradeType("가게거래");
+		sample1.setTradeStarttime(startDate);
+		sample1.setTradeEndtime(new Date(cal.getTimeInMillis()));
 		sample1.setTradeMax(1);
 		sample1.setTradeTitle("사은품으로 온 립글로즈 팔아요");
 		sample1.setTradeContent("립글로즈 필요없는데 신상색이라 필요하신분 있을거 같아서 싸게 팔아요");
@@ -65,8 +70,8 @@ class TradeTests {
 
 		sample.setTradeAddress("광주광역시 북구 중흥동");
 		sample.setTradeType("동네거래");
-		sample.setTradeStart(startDate);
-		sample.setTradeEnd(new Date(cal.getTimeInMillis()));
+		sample.setTradeStarttime(startDate);
+		sample.setTradeEndtime(new Date(cal.getTimeInMillis()));
 		sample.setTradeMax(1);
 		sample.setTradeTitle("아이패드 필름 원플원 나누실분");
 		sample.setTradeContent("종이질감 필름 원플원 하는거 나눠서 사실분 구합니다");
@@ -89,14 +94,14 @@ class TradeTests {
 		cal.add(Calendar.HOUR_OF_DAY, 1);	// 1시간
 		cal.add(Calendar.MINUTE, 20);	// 30분 후
 
-		sample.setTradeAddress("광주광역시 서구 풍암동");
-		sample.setTradeType("가게거래");
-		sample.setTradeStart(startDate);
-		sample.setTradeEnd(new Date(cal.getTimeInMillis()));
-		sample.setTradeMax(2);
-		sample.setTradeTitle("귤 나누실분");
-		sample.setTradeContent("롯데마트 월드컵점에서 귤 한박스 사서 나누실분 구해요!");
-		sample.setTradeCategoryVO(categoryRepository.findByCategoryNameContaining("식료품"));
+		sample.setTradeAddress("광주광역시 남구 진월동");
+		sample.setTradeType("동네거래");
+		sample.setTradeStarttime(startDate);
+		sample.setTradeEndtime(new Date(cal.getTimeInMillis()));
+		sample.setTradeMax(3);
+		sample.setTradeTitle("모자 원플원 나누실분");
+		sample.setTradeContent("emis에서 모자 원플원하는데 같은색만 원플원해서 나눠서 사실 한분 구합니다!");
+		sample.setTradeCategoryVO(categoryRepository.findByCategoryNameContaining("생필품"));
 		sample.setTradeMasterVO(userRepository.findByUserAccount("kyr1234"));
 		sample.setTradeProduct("귤");
 		sample.setTradePrice(5000);
@@ -114,4 +119,24 @@ class TradeTests {
 //
 //		System.out.println("5일 후 : " + new Date(cal.getTimeInMillis()));
 //	}
+    @Test
+    void tmemSaveTest(){
+        Tmember tmember = new Tmember();
+        tmember.setTradeVO(tradeRepository.findByTradeIdx(29L));
+        tmember.setUserVO(userRepository.findByUserAccount("bhn1234"));
+
+        tmemberRepository.save(tmember);
+    }
+    @Test // countTmem 메소드 확인
+    void countTmemTest(){
+
+        Long cnt =  tmemberRepository.countTmem(24L);
+        System.out.println("cnt = " + cnt);
+    }
+
+    @Test // countTmem 메소드 확인
+    void changeTradeCheck(){
+        tradeRepository.changeTradeCheck(24L);
+    }
+
 }
